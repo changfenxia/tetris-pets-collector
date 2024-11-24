@@ -32,26 +32,4 @@
   margin-left: calc(15% + 200px);
   flex-grow: 1;
   padding-right: 2rem;
-}
-
-.score-container {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  font-size: 1.2rem;
-}
-
-.debug-button {
-  padding: 8px 16px;
-  background: #2ecc71;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
-}
-
-.debug-button:hover {
-  background: #27ae60;
 } 

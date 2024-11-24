@@ -6,6 +6,7 @@ import { GameStats } from './types/achievements';
 import { PET_TYPES } from './constants/gameConfig';
 import { generatePetName } from './utils/petCalculations';
 import { ACHIEVEMENTS } from './constants/achievements';
+import TutorialModal from './components/TutorialModal';
 import './styles/App.css';
 
 const App: React.FC = () => {
@@ -24,6 +25,10 @@ const App: React.FC = () => {
       legendary: 0
     },
     specificPets: {}
+  });
+  const [showTutorial, setShowTutorial] = useState(() => {
+    const hasSeenTutorial = localStorage.getItem('hasSeenTutorial');
+    return !hasSeenTutorial;
   });
 
   const handlePetObtained = (newPet: Pet) => {
@@ -101,7 +106,7 @@ const App: React.FC = () => {
       };
     });
 
-    // Обнов��яем состояние только если есть изменения
+    // Обновяем состояние только если есть изменения
     if (JSON.stringify(newAchievements) !== JSON.stringify(achievements)) {
       setAchievements(newAchievements);
     }
@@ -133,14 +138,16 @@ const App: React.FC = () => {
     handlePetObtained(newPet);
   };
 
+  const handleCloseTutorial = () => {
+    setShowTutorial(false);
+    localStorage.setItem('hasSeenTutorial', 'true');
+  };
+
   return (
     <div className="app">
+      {showTutorial && <TutorialModal onClose={handleCloseTutorial} />}
       <header className="header">
-        <h1>Tetris Pets</h1>
-        <div className="score-container">
-          <span>Счёт: {score}</span>
-          <button onClick={addRandomPet} className="debug-button">Получить питомца</button>
-        </div>
+        <h1>Tetris - Коллекционер питомцев</h1>
       </header>
       <main className="game-container">
         <div className="game-board-container">
