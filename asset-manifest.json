@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tetris-pets/static/css/main.a0e58515.css",
+    "main.js": "/tetris-pets/static/js/main.f16d39fa.js",
+    "index.html": "/tetris-pets/index.html",
+    "main.a0e58515.css.map": "/tetris-pets/static/css/main.a0e58515.css.map",
+    "main.f16d39fa.js.map": "/tetris-pets/static/js/main.f16d39fa.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a0e58515.css",
+    "static/js/main.f16d39fa.js"
+  ]
+}
