@@ -1,0 +1,277 @@
+.pets-panel {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  height: fit-content;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  margin-right: 20px;
+}
+
+.pets-stats {
+  margin: 15px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pet-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Эффекты для эпических питомцев */
+.pet-card.epic {
+  background: linear-gradient(45deg, rgba(163, 53, 238, 0.05), rgba(163, 53, 238, 0.1));
+  box-shadow: 0 0 10px rgba(163, 53, 238, 0.3);
+  animation: epicPulse 2s infinite;
+}
+
+.pet-card.epic::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(163, 53, 238, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: epicShine 3s infinite;
+}
+
+/* Эффекты для легендарных питомцев */
+.pet-card.legendary {
+  background: linear-gradient(45deg, rgba(255, 128, 0, 0.05), rgba(255, 215, 0, 0.1));
+  box-shadow: 0 0 15px rgba(255, 128, 0, 0.4);
+  animation: legendaryPulse 2s infinite;
+}
+
+.pet-card.legendary::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 215, 0, 0.2),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: legendaryShine 2s infinite;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+}
+
+.pet-name {
+  font-weight: bold;
+  font-size: 14px;
+  word-wrap: break-word;
+  position: relative;
+  z-index: 1;
+}
+
+.pet-rarity {
+  font-size: 12px;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+.pet-type {
+  color: #ccc;
+  font-size: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.pet-bonus {
+  color: #4CAF50;
+  font-size: 12px;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes epicPulse {
+  0% { box-shadow: 0 0 10px rgba(163, 53, 238, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(163, 53, 238, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(163, 53, 238, 0.3); }
+}
+
+@keyframes legendaryPulse {
+  0% { box-shadow: 0 0 15px rgba(255, 128, 0, 0.4); }
+  50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+  100% { box-shadow: 0 0 15px rgba(255, 128, 0, 0.4); }
+}
+
+@keyframes epicShine {
+  0% { transform: rotate(45deg) translateX(-100%); }
+  100% { transform: rotate(45deg) translateX(100%); }
+}
+
+@keyframes legendaryShine {
+  0% { transform: rotate(45deg) translateX(-100%); }
+  100% { transform: rotate(45deg) translateX(100%); }
+}
+
+/* Анимация для новых питомцев */
+@keyframes newPet {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.pet-card.new {
+  animation: newPet 0.5s ease-out;
+}
+
+.panel-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.tab-button.active {
+  background: #4CAF50;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.achievement-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+
+.achievement-card:hover::before {
+  transform: translateX(100%);
+}
+
+.achievement-card.completed {
+  border-color: #4CAF50;
+  opacity: 1;
+  background: linear-gradient(45deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+}
+
+.achievement-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.achievement-description {
+  font-size: 14px;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+.achievement-completed {
+  margin-top: 10px;
+  color: #4CAF50;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.achievement-completed::before {
+  content: '✓';
+  font-size: 18px;
+}
+
+.achievement-card.secret:not(.completed) {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: #666;
+  box-shadow: 0 0 10px rgba(102, 102, 102, 0.1);
+}
+
+.achievement-card.secret:not(.completed) .achievement-title,
+.achievement-card.secret:not(.completed) .achievement-description {
+  color: #666;
+  font-style: italic;
+  text-shadow: 0 0 5px rgba(102, 102, 102, 0.5);
+}
+
+.achievement-card.secret.completed {
+  background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+  animation: secretUnlock 0.5s ease-out;
+}
+
+.achievement-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes secretUnlock {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+} 
