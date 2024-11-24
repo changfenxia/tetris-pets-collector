@@ -38,7 +38,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   };
 
   // Проверка столкновений
-  const checkCollision = (
+  const checkCollision = useCallback((
     pos: Position,
     shape: number[][],
     rot: number
@@ -63,18 +63,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
       }
     }
     return false;
-  };
+  }, [board]);
 
   // Поворот матрицы
   const rotateMatrix = useCallback((matrix: number[][], times: number = 1): number[][] => {
-    let rotated = [...matrix];
+    const rotate = (mat: number[][]): number[][] => 
+      mat[0].map((_, index) => mat.map(row => row[index]).reverse());
+    
+    let result = [...matrix];
     for (let i = 0; i < times % 4; i++) {
-      const newRotated = rotated[0].map((_, index) =>
-        rotated.map(row => row[index]).reverse()
-      );
-      rotated = newRotated;
+      result = rotate(result);
     }
-    return rotated;
+    return result;
   }, []);
 
   // Обноление игрового поля
@@ -108,7 +108,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [board, currentPiece, position, rotation, rotateMatrix]);
 
   // Движение фигуры вниз
-  const moveDown = () => {
+  const moveDown = useCallback(() => {
     if (!checkCollision(
       { x: position.x, y: position.y + 1 },
       TETROMINOS[currentPiece].shape,
@@ -190,10 +190,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
       setPosition({ x: BOARD_WIDTH / 2 - 2, y: 0 });
       setRotation(0);
     }
-  };
+  }, [board, checkCollision, currentPiece, position, rotation, score, onPetObtained, onTetris]);
 
   // Движение влево/впрво
-  const move = (dir: number) => {
+  const move = useCallback((dir: number) => {
     if (!checkCollision(
       { x: position.x + dir, y: position.y },
       TETROMINOS[currentPiece].shape,
@@ -201,10 +201,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
     )) {
       setPosition(prev => ({ ...prev, x: prev.x + dir }));
     }
-  };
+  }, [checkCollision, position.x, position.y, currentPiece, rotation]);
 
   // Поворот фигуры
-  const rotate = () => {
+  const rotate = useCallback(() => {
     const newRotation = (rotation + 1) % 4;
     if (!checkCollision(
       position,
@@ -213,7 +213,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     )) {
       setRotation(newRotation);
     }
-  };
+  }, [checkCollision, position, currentPiece, rotation]);
 
   // Управление с клавиатуры
   useEffect(() => {

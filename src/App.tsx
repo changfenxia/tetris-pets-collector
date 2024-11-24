@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import GameBoard from './components/GameBoard';
 import PetsPanel from './components/PetsPanel';
-import { Pet, PetRarity } from './types/pets';
+import { Pet } from './types/pets';
 import { GameStats } from './types/achievements';
-import { PET_TYPES } from './constants/gameConfig';
-import { generatePetName } from './utils/petCalculations';
 import { ACHIEVEMENTS } from './constants/achievements';
 import TutorialModal from './components/TutorialModal';
 import './styles/App.css';
