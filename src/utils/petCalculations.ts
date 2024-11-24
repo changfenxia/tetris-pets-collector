@@ -1,4 +1,4 @@
-import { Pet, PetChances, PetRarity } from '../types/pets';
+import { Pet, PetRarity } from '../types/pets';
 import { BASE_CHANCES, LINE_CLEAR_MULTIPLIERS } from '../constants/gameConfig';
 
 export const calculatePetChance = (

@@ -89,8 +89,6 @@ const App: React.FC = () => {
       const wasCompleted = achievement.completed;
       const isCompleted = achievement.condition(stats);
       
-      // Показываем уведомление только если достижение только что выполнено
-      // и не было выполнено раньше
       if (!wasCompleted && isCompleted && !achievement.completed) {
         createNotification(
           `🏆 Достижение разблокировано: ${
@@ -106,11 +104,10 @@ const App: React.FC = () => {
       };
     });
 
-    // Обновяем состояние только если есть изменения
     if (JSON.stringify(newAchievements) !== JSON.stringify(achievements)) {
       setAchievements(newAchievements);
     }
-  }, [stats]);
+  }, [stats, achievements]);
 
   // Обновляем общий счет в статистике
   useEffect(() => {
@@ -119,24 +116,6 @@ const App: React.FC = () => {
       totalScore: score
     }));
   }, [score]);
-
-  // Тестовая функция для добавления случайного питомца
-  const addRandomPet = () => {
-    const rarities: PetRarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
-    const randomRarity = rarities[Math.floor(Math.random() * rarities.length)];
-    const possiblePets = PET_TYPES[randomRarity];
-    const randomPet = possiblePets[Math.floor(Math.random() * possiblePets.length)];
-    
-    const newPet: Pet = {
-      id: Date.now().toString(),
-      name: generatePetName(randomPet.type, randomRarity),
-      rarity: randomRarity,
-      type: randomPet.type,
-      dropRateBonus: randomPet.dropRateBonus
-    };
-
-    handlePetObtained(newPet);
-  };
 
   const handleCloseTutorial = () => {
     setShowTutorial(false);

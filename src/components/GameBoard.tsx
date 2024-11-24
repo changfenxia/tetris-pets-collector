@@ -66,15 +66,16 @@ const GameBoard: React.FC<GameBoardProps> = ({
   };
 
   // Поворот матрицы
-  const rotateMatrix = (matrix: number[][], times: number = 1): number[][] => {
+  const rotateMatrix = useCallback((matrix: number[][], times: number = 1): number[][] => {
     let rotated = [...matrix];
     for (let i = 0; i < times % 4; i++) {
-      rotated = rotated[0].map((_, index) =>
+      const newRotated = rotated[0].map((_, index) =>
         rotated.map(row => row[index]).reverse()
       );
+      rotated = newRotated;
     }
     return rotated;
-  };
+  }, []);
 
   // Обноление игрового поля
   const updateBoard = useCallback(() => {
@@ -104,7 +105,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     });
 
     return newBoard;
-  }, [board, currentPiece, position, rotation]);
+  }, [board, currentPiece, position, rotation, rotateMatrix]);
 
   // Движение фигуры вниз
   const moveDown = () => {
@@ -218,24 +219,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (!gameOver) {
-        // Предотвращаем стандартное поведение клавиш
         e.preventDefault();
-        
         switch (e.key) {
-          case 'ArrowLeft':
-            move(-1);
-            break;
-          case 'ArrowRight':
-            move(1);
-            break;
-          case 'ArrowDown':
-            moveDown();
-            break;
-          case 'ArrowUp':
-            rotate();
-            break;
+          case 'ArrowLeft': move(-1); break;
+          case 'ArrowRight': move(1); break;
+          case 'ArrowDown': moveDown(); break;
+          case 'ArrowUp': rotate(); break;
           case ' ':
-            // Мгновенное падение
             while (!checkCollision(
               { x: position.x, y: position.y + 1 },
               TETROMINOS[currentPiece].shape,
@@ -252,20 +242,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [gameOver, position, currentPiece, rotation, board]);
+  }, [gameOver, position, currentPiece, rotation, board, move, moveDown, rotate, checkCollision]);
 
   // Автоматическое падение
   useEffect(() => {
     if (!gameOver && dropTime) {
-      const timer = setInterval(() => {
-        moveDown();
-      }, dropTime);
-
-      return () => {
-        clearInterval(timer);
-      };
+      const timer = setInterval(moveDown, dropTime);
+      return () => clearInterval(timer);
     }
-  }, [gameOver, dropTime, position]);
+  }, [gameOver, dropTime, moveDown]);
 
   // Отрисовка игрового поля
   const renderBoard = () => {
