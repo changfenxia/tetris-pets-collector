@@ -37,7 +37,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return pieces[Math.floor(Math.random() * pieces.length)];
   };
 
-  // Проверка столкновений
+  // Поворот матрицы (перемещаем в начало)
+  const rotateMatrix = useCallback((matrix: number[][], times: number = 1): number[][] => {
+    const rotate = (mat: number[][]): number[][] => 
+      mat[0].map((_, index) => mat.map(row => row[index]).reverse());
+    
+    let result = [...matrix];
+    for (let i = 0; i < times % 4; i++) {
+      result = rotate(result);
+    }
+    return result;
+  }, []);
+
+  // Проверка столкновений (теперь rotateMatrix уже объявлен)
   const checkCollision = useCallback((
     pos: Position,
     shape: number[][],
@@ -63,19 +75,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       }
     }
     return false;
-  }, [board]);
-
-  // Поворот матрицы
-  const rotateMatrix = useCallback((matrix: number[][], times: number = 1): number[][] => {
-    const rotate = (mat: number[][]): number[][] => 
-      mat[0].map((_, index) => mat.map(row => row[index]).reverse());
-    
-    let result = [...matrix];
-    for (let i = 0; i < times % 4; i++) {
-      result = rotate(result);
-    }
-    return result;
-  }, []);
+  }, [board, rotateMatrix]);
 
   // Обноление игрового поля
   const updateBoard = useCallback(() => {
@@ -190,7 +190,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
       setPosition({ x: BOARD_WIDTH / 2 - 2, y: 0 });
       setRotation(0);
     }
-  }, [board, checkCollision, currentPiece, position, rotation, score, onPetObtained, onTetris]);
+  }, [
+    board, 
+    checkCollision, 
+    currentPiece, 
+    position, 
+    rotation, 
+    score, 
+    onPetObtained, 
+    onTetris,
+    collectedPets, 
+    rotateMatrix,
+    setScore
+  ]);
 
   // Движение влево/впрво
   const move = useCallback((dir: number) => {
